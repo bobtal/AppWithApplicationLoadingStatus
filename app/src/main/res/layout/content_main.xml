@@ -52,17 +52,6 @@
             android:text="@string/radio_retrofit_text" />
     </RadioGroup>
 
-    <!--    <Button-->
-    <!--        android:id="@+id/button_button"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:text="@string/app_description"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        android:layout_height="60dp"-->
-    <!--        android:layout_margin="20dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
     <com.udacity.LoadingButton
         android:id="@+id/custom_button"
         android:layout_width="0dp"
