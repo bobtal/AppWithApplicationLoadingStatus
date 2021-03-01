@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.withStyledAttributes
 import kotlin.properties.Delegates
 
 class LoadingButton @JvmOverloads constructor(
@@ -12,6 +13,9 @@ class LoadingButton @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
     private var widthSize = 0
     private var heightSize = 0
+
+    private var textColor: Int = 0
+    private var backgroundButtonColor: Int = 0
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
@@ -29,6 +33,10 @@ class LoadingButton @JvmOverloads constructor(
 
     init {
         isClickable = true
+        context.withStyledAttributes(attrs, R.styleable.LoadingButton) {
+            textColor = getColor(R.styleable.LoadingButton_textColor, 0)
+            backgroundButtonColor = getColor(R.styleable.LoadingButton_backgroundColor, 0)
+        }
     }
 
     override fun performClick(): Boolean {
@@ -42,11 +50,11 @@ class LoadingButton @JvmOverloads constructor(
         super.onDraw(canvas)
 
         // Draw the rectangle
-        paint.color = context.getColor(R.color.colorPrimary)
+        paint.color = backgroundButtonColor
         canvas?.drawRect(0.0f, 0.0f, widthSize.toFloat(), heightSize.toFloat(), paint)
 
         // Draw the text
-        paint.color = Color.WHITE
+        paint.color = textColor
         // Vertically center the text itself instead of the baseline
         val textHeight = paint.descent() - paint.ascent()
         val textOffset = (textHeight / 2) - paint.descent()
