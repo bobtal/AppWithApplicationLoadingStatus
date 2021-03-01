@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             if (null != url) {
                 download(url)
             }
+            custom_button.buttonState = ButtonState.Loading
         }
     }
 

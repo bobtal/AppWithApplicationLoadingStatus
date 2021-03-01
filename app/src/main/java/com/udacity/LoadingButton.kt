@@ -26,12 +26,20 @@ class LoadingButton @JvmOverloads constructor(
 
     private val valueAnimator = ValueAnimator()
 
-    private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
-
+    internal var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
+        when (new) {
+            ButtonState.Loading -> {
+                // animate
+            }
+            ButtonState.Completed -> {
+                // stop animation
+            }
+        }
     }
 
 
     init {
+        buttonState = ButtonState.Completed
         isClickable = true
         context.withStyledAttributes(attrs, R.styleable.LoadingButton) {
             textColor = getColor(R.styleable.LoadingButton_textColor, 0)
