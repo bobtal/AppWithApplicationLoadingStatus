@@ -41,6 +41,7 @@ class LoadingButton @JvmOverloads constructor(
 
         // Draw the text
         paint.color = Color.WHITE
+        // Vertically center the text itself instead of the baseline
         val textHeight = paint.descent() - paint.ascent()
         val textOffset = (textHeight / 2) - paint.descent()
         canvas?.drawText(
