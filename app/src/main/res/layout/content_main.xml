@@ -9,13 +9,23 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <ImageView
+        android:id="@+id/download_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimaryDark"
+        android:contentDescription="@string/download_icon"
+        app:layout_constraintBottom_toTopOf="@id/radio_group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_cloud_download_24" />
+
     <RadioGroup
         android:id="@+id/radio_group"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_margin="32dp"
         app:layout_constraintBottom_toTopOf="@+id/custom_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -24,18 +34,21 @@
             android:id="@+id/radio_glide_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:text="@string/radio_glide_text" />
 
         <RadioButton
             android:id="@+id/radio_udacity_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:text="@string/radio_udacity_text" />
 
         <RadioButton
             android:id="@+id/radio_retrofit_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:text="@string/radio_retrofit_text" />
     </RadioGroup>
 
