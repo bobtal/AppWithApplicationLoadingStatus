@@ -23,6 +23,7 @@
     <string name="radio_retrofit_url">https://github.com/square/retrofit/archive/master.zip</string>
 
     <string name="download">Download</string>
+    <string name="download_complete">Download complete</string>
     <string name="download_icon">Download Icon</string>
     <string name="please_select">Please select the file to download</string>
 </resources>

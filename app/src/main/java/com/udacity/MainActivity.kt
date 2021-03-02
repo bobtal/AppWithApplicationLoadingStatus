@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -43,12 +44,22 @@ class MainActivity : AppCompatActivity() {
                 download(url)
             }
             custom_button.buttonState = ButtonState.Loading
+
+            // initialize the notification manager
+            notificationManager = ContextCompat.getSystemService(
+                    applicationContext, NotificationManager::class.java) as NotificationManager
+
         }
     }
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+
+            custom_button.buttonState = ButtonState.Completed
+            Toast.makeText(context, "DL finished" + "DL ID = " + id, Toast.LENGTH_SHORT).show()
+
+            notificationManager.sendNotification("Download complete", applicationContext)
         }
     }
 
@@ -64,10 +75,8 @@ class MainActivity : AppCompatActivity() {
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadID =
             downloadManager.enqueue(request)// enqueue puts the download request in the queue.
-    }
-
-    companion object {
-        private const val CHANNEL_ID = "channelId"
+        Toast.makeText(this, "DL started " + "DL ID = " + downloadID, Toast.LENGTH_SHORT).show()
     }
 
 }
+
