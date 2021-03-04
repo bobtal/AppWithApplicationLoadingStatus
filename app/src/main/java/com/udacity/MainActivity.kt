@@ -79,7 +79,8 @@ class MainActivity : AppCompatActivity() {
             )
 
             notificationManager.sendNotification(
-                    getString(R.string.download_complete),
+                    getString(R.string.notification_title),
+                    getString(R.string.notification_description),
                     applicationContext,
                     pendingIntent,
                     NOTIFICATION_ID

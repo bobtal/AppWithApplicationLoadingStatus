@@ -16,6 +16,7 @@ private const val CHANNEL_ID = "channelId"
 private const val CHANNEL_NAME = "Downloads"
 
 fun NotificationManager.sendNotification(
+        title: String,
         messageBody: String,
         applicationContext: Context,
         pendingIntent: PendingIntent,
@@ -29,7 +30,7 @@ fun NotificationManager.sendNotification(
     }
 
     val notificationBuilder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setContentTitle(applicationContext.getString(R.string.download_complete))
+            .setContentTitle(title)
             .setContentText(messageBody)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
@@ -37,7 +38,7 @@ fun NotificationManager.sendNotification(
 //            .addAction(R.drawable.ic_baseline_cloud_download_24, "Check the status", contentPendingIntent)
             .addAction(
                     NotificationCompat.Action.Builder(
-                            0, "Check the status", pendingIntent).build()
+                            0, applicationContext.getString(R.string.check_the_status), pendingIntent).build()
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
