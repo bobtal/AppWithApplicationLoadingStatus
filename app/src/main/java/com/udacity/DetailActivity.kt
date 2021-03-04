@@ -1,6 +1,7 @@
 package com.udacity
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.udacity.MainActivity.Companion.FILE_NAME
 import com.udacity.MainActivity.Companion.STATUS
@@ -19,6 +20,10 @@ class DetailActivity : AppCompatActivity() {
 
         file_name_text.text = fileName
         status_text.text = status
+
+        ok_button.setOnClickListener(View.OnClickListener {
+            finish()
+        })
     }
 
 }
