@@ -66,7 +66,6 @@ class MainActivity : AppCompatActivity() {
             status = getString(R.string.success)
 
             custom_button.buttonState = ButtonState.Completed
-            Toast.makeText(context, "DL finished" + "DL ID = " + id, Toast.LENGTH_SHORT).show()
 
             val contentIntent = Intent(applicationContext, DetailActivity::class.java)
             contentIntent.putExtra(Companion.FILE_NAME, Companion.fileName)
@@ -100,7 +99,6 @@ class MainActivity : AppCompatActivity() {
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadID =
             downloadManager.enqueue(request)// enqueue puts the download request in the queue.
-        Toast.makeText(this, "DL started " + "DL ID = " + downloadID, Toast.LENGTH_SHORT).show()
     }
 
     companion object {
