@@ -16,6 +16,8 @@ class LoadingButton @JvmOverloads constructor(
 
     private var textColor: Int = 0
     private var backgroundButtonColor: Int = 0
+    private var backgroundAnimatedColor: Int = 0
+    private var animatedCircleColor: Int = 0
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
@@ -44,6 +46,8 @@ class LoadingButton @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.LoadingButton) {
             textColor = getColor(R.styleable.LoadingButton_textColor, 0)
             backgroundButtonColor = getColor(R.styleable.LoadingButton_backgroundColor, 0)
+            backgroundAnimatedColor = getColor(R.styleable.LoadingButton_backgroundAnimatedColor, 0)
+            animatedCircleColor = getColor(R.styleable.LoadingButton_animatedCircleColor, 0)
         }
     }
 
