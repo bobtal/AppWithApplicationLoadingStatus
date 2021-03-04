@@ -21,9 +21,9 @@ class DetailActivity : AppCompatActivity() {
         file_name_text.text = fileName
         status_text.text = status
 
-        ok_button.setOnClickListener(View.OnClickListener {
+        ok_button.setOnClickListener {
             finish()
-        })
+        }
     }
 
 }
