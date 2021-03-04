@@ -3,10 +3,7 @@ package com.udacity
 import android.app.DownloadManager
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -22,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private var downloadID: Long = 0
 
     private lateinit var notificationManager: NotificationManager
+    private val NOTIFICATION_ID = 0
     private lateinit var pendingIntent: PendingIntent
     private lateinit var action: NotificationCompat.Action
 
@@ -36,9 +34,18 @@ class MainActivity : AppCompatActivity() {
             var url : String? = null
             when (radio_group.checkedRadioButtonId) {
                 -1 -> Toast.makeText(this, getString(R.string.please_select), Toast.LENGTH_LONG).show()
-                R.id.radio_glide_button -> url = getString(R.string.radio_glide_url)
-                R.id.radio_udacity_button -> url = getString(R.string.radio_udacity_url)
-                R.id.radio_retrofit_button -> url = getString(R.string.radio_retrofit_url)
+                R.id.radio_glide_button -> {
+                    url = getString(R.string.radio_glide_url)
+                    fileName = getString(R.string.radio_glide_text)
+                }
+                R.id.radio_udacity_button -> {
+                    url = getString(R.string.radio_udacity_url)
+                    fileName = getString(R.string.radio_udacity_text)
+                }
+                R.id.radio_retrofit_button -> {
+                    url = getString(R.string.radio_retrofit_url)
+                    fileName = getString(R.string.radio_retrofit_text)
+                }
             }
             if (null != url) {
                 download(url)
@@ -56,10 +63,27 @@ class MainActivity : AppCompatActivity() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
 
+            status = getString(R.string.success)
+
             custom_button.buttonState = ButtonState.Completed
             Toast.makeText(context, "DL finished" + "DL ID = " + id, Toast.LENGTH_SHORT).show()
 
-            notificationManager.sendNotification("Download complete", applicationContext)
+            val contentIntent = Intent(applicationContext, DetailActivity::class.java)
+            contentIntent.putExtra(Companion.FILE_NAME, Companion.fileName)
+            contentIntent.putExtra(Companion.STATUS, status)
+            pendingIntent = PendingIntent.getActivity(
+                    applicationContext,
+                    NOTIFICATION_ID,
+                    contentIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
+            notificationManager.sendNotification(
+                    getString(R.string.download_complete),
+                    applicationContext,
+                    pendingIntent,
+                    NOTIFICATION_ID
+            )
         }
     }
 
@@ -76,6 +100,14 @@ class MainActivity : AppCompatActivity() {
         downloadID =
             downloadManager.enqueue(request)// enqueue puts the download request in the queue.
         Toast.makeText(this, "DL started " + "DL ID = " + downloadID, Toast.LENGTH_SHORT).show()
+    }
+
+    companion object {
+        const val FILE_NAME = "FILE_NAME"
+        const val STATUS = "STATUS"
+
+        private lateinit var fileName : String
+        private lateinit var status : String
     }
 
 }

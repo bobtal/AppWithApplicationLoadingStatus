@@ -10,21 +10,17 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 
-private val NOTIFICATION_ID = 0
 private val REQUEST_CODE = 0
 private val FLAGS = 0
 private const val CHANNEL_ID = "channelId"
 private const val CHANNEL_NAME = "Downloads"
 
-fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
-    val contentIntent = Intent(applicationContext, DetailActivity::class.java)
-    val contentPendingIntent = PendingIntent.getActivity(
-            applicationContext,
-            NOTIFICATION_ID,
-            contentIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-    )
-
+fun NotificationManager.sendNotification(
+        messageBody: String,
+        applicationContext: Context,
+        pendingIntent: PendingIntent,
+        notificationId: Int
+) {
     // check for existing notification channel on versions O and above
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
         if (!isNotificationChannelAvailable(this)) {
@@ -35,17 +31,17 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
     val notificationBuilder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle(applicationContext.getString(R.string.download_complete))
             .setContentText(messageBody)
-            .setContentIntent(contentPendingIntent)
+            .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .setSmallIcon(R.drawable.ic_baseline_cloud_download_24)
 //            .addAction(R.drawable.ic_baseline_cloud_download_24, "Check the status", contentPendingIntent)
             .addAction(
                     NotificationCompat.Action.Builder(
-                            0, "Check the status", contentPendingIntent).build()
+                            0, "Check the status", pendingIntent).build()
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-    notify(NOTIFICATION_ID, notificationBuilder.build())
+    notify(notificationId, notificationBuilder.build())
 
 }
 

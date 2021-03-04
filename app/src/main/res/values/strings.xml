@@ -26,4 +26,9 @@
     <string name="download_complete">Download complete</string>
     <string name="download_icon">Download Icon</string>
     <string name="please_select">Please select the file to download</string>
+
+    <string name="success">Success</string>
+
+    <string name="file_name">File name:</string>
+    <string name="status">Status:</string>
 </resources>
