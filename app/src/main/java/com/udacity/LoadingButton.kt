@@ -19,6 +19,10 @@ class LoadingButton @JvmOverloads constructor(
     private var backgroundAnimatedColor: Int = 0
     private var animatedCircleColor: Int = 0
 
+    private var animate = false
+    private var animatedWidth: Int = 0
+    private var animatedAngle: Float = 0f
+
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
         textAlign = Paint.Align.CENTER
@@ -31,10 +35,16 @@ class LoadingButton @JvmOverloads constructor(
     internal var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
         when (new) {
             ButtonState.Loading -> {
-                // animate
+                // start animation
+                animate = true
+                invalidate()
             }
             ButtonState.Completed -> {
                 // stop animation
+                animate = false
+                // reset the animation values to zero
+                animatedWidth = 0
+                animatedAngle = 0f
             }
         }
     }
@@ -65,17 +75,62 @@ class LoadingButton @JvmOverloads constructor(
         paint.color = backgroundButtonColor
         canvas?.drawRect(0.0f, 0.0f, widthSize.toFloat(), heightSize.toFloat(), paint)
 
-        // Draw the text
-        paint.color = textColor
-        // Vertically center the text itself instead of the baseline
-        val textHeight = paint.descent() - paint.ascent()
-        val textOffset = (textHeight / 2) - paint.descent()
-        canvas?.drawText(
-                resources.getString(R.string.download),
-                widthSize.toFloat()/2,
-                heightSize.toFloat()/2 + textOffset,
-                paint
-        )
+        // if need to animate
+        if (animate) {
+            // Draw the "loading bar"
+            if (animatedWidth < widthSize) {
+                animatedWidth += 5
+            } else {
+                animatedWidth = 1
+            }
+            paint.color = backgroundAnimatedColor
+            canvas?.drawRect(0.0f, 0.0f, animatedWidth.toFloat(), heightSize.toFloat(), paint)
+
+            // Draw the downloading text
+            paint.color = textColor
+            // Vertically center the text itself instead of the baseline
+            val textHeight = paint.descent() - paint.ascent()
+            val textOffset = (textHeight / 2) - paint.descent()
+            canvas?.drawText(
+                    resources.getString(R.string.button_loading),
+                    widthSize.toFloat()/2,
+                    heightSize.toFloat()/2 + textOffset,
+                    paint
+            )
+
+            // Draw the "loading circle"
+            if (animatedAngle < 360f) {
+                animatedAngle += 5f
+            } else {
+                animatedAngle = 5f
+            }
+            paint.color = animatedCircleColor
+            canvas?.drawArc(
+                    (3f/4f)*widthSize,
+                    1f/4f*heightSize,
+                    (3f/4f)*widthSize + (1f/10f)*widthSize,
+                    3f/4f*heightSize,
+                    0f,
+                    animatedAngle,
+                    true,
+                    paint
+            )
+
+            invalidate()
+        } else {
+            // Draw the "normal" non-downloading text
+            paint.color = textColor
+            // Vertically center the text itself instead of the baseline
+            val textHeight = paint.descent() - paint.ascent()
+            val textOffset = (textHeight / 2) - paint.descent()
+            canvas?.drawText(
+                    resources.getString(R.string.download),
+                    widthSize.toFloat()/2,
+                    heightSize.toFloat()/2 + textOffset,
+                    paint
+            )
+        }
+
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
