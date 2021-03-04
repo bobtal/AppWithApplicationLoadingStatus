@@ -38,7 +38,7 @@ fun NotificationManager.sendNotification(
 //            .addAction(R.drawable.ic_baseline_cloud_download_24, "Check the status", contentPendingIntent)
             .addAction(
                     NotificationCompat.Action.Builder(
-                            0, context.getString(R.string.check_the_status), pendingIntent).build()
+                            0, applicationContext.getString(R.string.check_the_status), pendingIntent).build()
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
